@@ -1,0 +1,41 @@
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <variable name="COMMON_PATTERN"
+        value="%d{HH:mm:ss.SSS} [%thread] %-5level %class.%method\\(\\) line %line: %msg %n" />
+
+    <!-- Log Console messages to a file -->
+    <appender name="RootConsole" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${COMMON_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Log Console messages to a file -->
+    <appender name="RootFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>MagicDBUpdater_console.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                MagicDBUpdater_console.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>3</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${COMMON_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="ERROR" additivity="false">
+        <appender-ref ref="RootConsole" />
+        <appender-ref ref="RootFile" />
+    </logger>
+    <logger name="org.apache" level="ERROR" additivity="false">
+        <appender-ref ref="RootConsole" />
+        <appender-ref ref="RootFile" />
+    </logger>
+    
+    <root level="ALL">
+        <appender-ref ref="RootConsole" />
+        <appender-ref ref="RootFile" />
+    </root>
+</configuration> 
